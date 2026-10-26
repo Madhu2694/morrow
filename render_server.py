@@ -27,11 +27,19 @@ Return ONLY valid JSON with this schema:
       "description": "2-3 useful sentences",
       "effort": "Low / Medium / High",
       "best": "short use case",
-      "tasks": ["task 1", "task 2", "task 3"]
+      "tasks": [
+    "task 1",
+    "task 2",
+    "task 3",
+    "task 4",
+    "task 5",
+    "task 6",
+    "task 7"
+]
     }
   ]
 }
-Return exactly 3 paths and exactly 3 actionable tasks per path.
+Return exactly 5 paths and exactly 5-7 actionable tasks per path.
 Keep advice realistic and safe. Do not use markdown fences.
 """
 
@@ -81,13 +89,13 @@ def generate():
         plan = json.loads(content)
         paths = plan.get("paths")
 
-        if not isinstance(paths, list) or len(paths) != 3:
+        if not isinstance(paths, list) or len(paths) != 5:
             raise ValueError("AI did not return exactly three paths.")
 
         clean = []
         for item in paths:
             tasks = item.get("tasks", [])
-            if not isinstance(tasks, list) or len(tasks) != 3:
+            if not isinstance(tasks, list) or if not 5 <= len(tasks) <= 7:
                 raise ValueError("AI returned an incomplete task list.")
 
             clean.append({
