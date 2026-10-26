@@ -58,7 +58,9 @@ async function generate(){
  try{
   const response=await fetch("https://morrow-ai.onrender.com/api/generate",{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({goal})});
   const data=await response.json();
-  if(!response.ok)throw new Error(data.error||'The local AI could not generate a plan.');
+  if(!response.ok){
+   throw new Error(data.error||'The local AI could not generate a plan.');
+  }
   goalText=goal.length>29?goal.slice(0,27)+'…':goal;
   pathData=data.paths;
   buildWorld();setSelected(0);
