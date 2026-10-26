@@ -74,6 +74,7 @@ def generate():
             },
             timeout=60
         )
+        app.logger.error("Groq response %s: %s", response.status_code, response.text[:1000])
         response.raise_for_status()
         result = response.json()
         content = result["choices"][0]["message"]["content"]
