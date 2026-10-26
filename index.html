@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#070916">
+<meta name="description" content="Morrow — explore a real-time 3D map of your next possibility.">
+<title>MORROW — Explore What Comes Next</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="grain"></div>
+<header class="nav">
+ <a class="brand" href="#"><span class="brand-icon">m</span><span>MORROW<small>A MAP FOR WHAT'S NEXT</small></span></a>
+ <div class="nav-right"><span class="live"><i></i> INTERACTIVE 3D WORLD</span><a href="#explore">Explore <span>↘</span></a></div>
+</header>
+<main>
+<section class="hero">
+ <div class="hero-copy">
+  <div class="eyebrow"><span class="spark">✳</span> A NEW WAY TO THINK ABOUT WHAT'S NEXT</div>
+  <h1>Your future isn't<br>a straight line.<br><em>Explore it.</em></h1>
+  <p class="lead">Turn a question, ambition, or big life change into a universe of possibilities. Navigate your options in 3D, find a direction, and make your next move real.</p>
+  <div class="hero-actions"><a class="button primary" href="#explore">Build your world <span>↗</span></a><span class="hint">No account. No perfect plan required.</span></div>
+  <div class="hero-stats"><div><b>01</b><span>NAME THE GOAL</span></div><div><b>02</b><span>EXPLORE PATHS</span></div><div><b>03</b><span>TAKE A STEP</span></div></div>
+ </div>
+ <div class="hero-visual">
+  <div class="orbit-ring ring1"></div><div class="orbit-ring ring2"></div>
+  <div class="hero-core"><div class="core-inner"></div><span>YOUR NEXT<br>CHAPTER</span></div>
+  <div class="hero-node n1"><i></i><span>LEARN</span></div><div class="hero-node n2"><i></i><span>BUILD</span></div><div class="hero-node n3"><i></i><span>DISCOVER</span></div>
+  <div class="hero-caption">POSSIBILITY FIELD <span>·</span> 001</div>
+ </div>
+</section>
+<section class="explore" id="explore">
+ <div class="section-heading"><div><div class="eyebrow">YOUR PERSONAL UNIVERSE / 01</div><h2>See the paths.<br><em>Choose your orbit.</em></h2></div><p>Enter what's on your mind. A 3D world will form around your goal. Drag to rotate, scroll to zoom, and select a planet to explore a direction.</p></div>
+ <div class="workspace">
+  <aside class="panel">
+   <div class="panel-top"><div class="tiny-logo">m</div><div><b>World builder</b><small>YOUR STARTING POINT</small></div><span class="status">LIVE</span></div>
+   <label for="goal">WHAT DO YOU WANT TO FIGURE OUT?</label>
+   <textarea id="goal" maxlength="220" rows="4" placeholder="I want to change careers, learn a skill, start a business…"></textarea>
+   <button id="create" class="button primary full">Generate my universe <span>↗</span></button>
+   <div class="divider"></div><div class="panel-label">POSSIBLE DIRECTIONS <span id="count">03</span></div>
+   <div id="paths" class="path-buttons">
+    <button class="path-button active" data-path="0"><span class="letter">A</span><span><b>Start small</b><small>Build momentum</small></span><span class="arrow">↗</span></button>
+    <button class="path-button" data-path="1"><span class="letter">B</span><span><b>Learn deeply</b><small>Build foundations</small></span><span class="arrow">↗</span></button>
+    <button class="path-button" data-path="2"><span class="letter">C</span><span><b>Try in public</b><small>Learn by doing</small></span><span class="arrow">↗</span></button>
+   </div>
+   <div class="tip"><span>✦</span><p><b>Start with curiosity.</b><br>Your map isn't a prediction. It's a way to make options easier to see.</p></div>
+  </aside>
+  <div class="universe">
+   <div class="universe-head"><span><i></i> LIVE WORLD RENDER</span><div><button id="reset" title="Reset camera">◎</button><button id="zoom" title="Zoom in">＋</button></div></div>
+   <div id="canvas-wrap"><div class="loading" id="loading"><span class="loader"></span> FORMING YOUR UNIVERSE</div></div>
+   <div class="universe-foot"><span><i class="dot goal-dot"></i> YOUR GOAL</span><span><i class="dot path-dot"></i> POSSIBLE PATH</span><span class="controls-hint">DRAG TO ROTATE · SCROLL TO ZOOM</span></div>
+  </div>
+  <aside class="detail">
+   <div class="detail-eyebrow" id="detailEyebrow">PATH A / MOMENTUM</div>
+   <div class="detail-icon">↗</div><h3 id="detailTitle">Start small</h3>
+   <p id="detailDescription">Choose one manageable action and learn from doing it. Reduce friction, build momentum, and adjust as you go.</p>
+   <div class="metrics"><div><small>EFFORT</small><b id="effort">Low–medium</b></div><div><small>BEST FOR</small><b id="best">Getting unstuck</b></div></div>
+   <div class="divider"></div><div class="panel-label">YOUR FIRST STEPS <span id="progress">0 / 3</span></div>
+   <div id="tasks" class="tasks"></div>
+   <button id="export" class="button primary full">Export my plan <span>↓</span></button><button id="copy" class="copy">Copy plan summary ↗</button>
+   <p class="saved">Progress is saved in this browser.</p>
+  </aside>
+ </div>
+ <p class="disclaimer">Prototype note: path suggestions use simple local templates, not an AI model or a prediction of your future. Your goal and checklist stay on this device.</p>
+</section>
+<section class="closing"><div class="closing-orb"></div><div><div class="eyebrow">THE NEXT CHAPTER IS YOURS</div><h2>You don't need<br>the whole map.<br><em>Just a place to begin.</em></h2></div><a class="button ghost" href="#explore">Explore your possibilities ↑</a></section>
+</main>
+<footer><a class="brand small-brand" href="#"><span class="brand-icon">m</span><span>MORROW<small>A MAP FOR WHAT'S NEXT</small></span></a><span>BUILT FOR THE SPACE BETWEEN “WHAT IF” AND “WHAT NOW.”</span><span>© MORROW / EXPERIMENT 001</span></footer>
+<script type="module" src="app.js"></script>
+</body></html>
