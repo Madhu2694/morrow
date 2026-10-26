@@ -14,7 +14,13 @@ const starGeo=new THREE.BufferGeometry(), starPos=[];for(let i=0;i<650;i++){star
 const floor=new THREE.Mesh(new THREE.CircleGeometry(10,80),new THREE.MeshBasicMaterial({color:0x0c1026,transparent:true,opacity:.85}));floor.rotation.x=-Math.PI/2;floor.position.y=-.6;scene.add(floor);
 const grid=new THREE.GridHelper(20,32,0x45416f,0x262747);grid.position.y=-.57;grid.material.transparent=true;grid.material.opacity=.25;scene.add(grid);
 const world=new THREE.Group();scene.add(world);
-const colors=[0x9d8bff,0x6fe2e0,0xffbd91];
+const colors = [
+  0x9d8bff,
+  0x6fe2e0,
+  0xffbd91,
+  0x79aaff,
+  0xff83c8
+];
 let nodes=[], lines=[], selected=0, goalText='Your next chapter', pathData=[];
 const defaults=[
  {title:'Start small',subtitle:'Build momentum',description:'Choose one manageable action and learn from doing it. Reduce friction, build momentum, and adjust as you go.',effort:'Low–medium',best:'Getting unstuck',tasks:['Write down the smallest useful next step','Spend 20 minutes making a first attempt','Review what worked and choose the next move']},
@@ -34,13 +40,78 @@ function addIsland(pos,color,index,isGoal=false,title=''){
  nodes.push({group,crystal,index,isGoal,glow});return group;
 }
 function connect(a,b,color){const points=[new THREE.Vector3(...a),new THREE.Vector3((a[0]+b[0])/2,2.4,(a[2]+b[2])/2),new THREE.Vector3(...b)];const curve=new THREE.QuadraticBezierCurve3(...points);const obj=new THREE.Mesh(new THREE.TubeGeometry(curve,36,.018,5,false),new THREE.MeshBasicMaterial({color,transparent:true,opacity:.62}));world.add(obj);lines.push(obj);const dot=new THREE.Mesh(new THREE.SphereGeometry(.055,8,8),new THREE.MeshBasicMaterial({color}));world.add(dot);dot.userData.curve=curve;dot.userData.offset=Math.random();lines.push(dot)}
-function buildWorld(){
- clearWorld();
- const positions=[[0,.1,0],[-3.3,0,-1.5],[3.3,0,-1.5],[0,0,3.5]];
- addIsland(positions[0],0x74dfe0,-1,true,goalText);
- for(let i=0;i<3;i++){addIsland(positions[i+1],colors[i],i,false,pathData[i].title);connect([0,1.1,0],[positions[i+1][0],1.1,positions[i+1][2]],colors[i])}
- const ring=new THREE.Mesh(new THREE.TorusGeometry(5.6,.012,5,120),new THREE.MeshBasicMaterial({color:0x7770bc,transparent:true,opacity:.22}));ring.rotation.x=Math.PI/2;ring.position.y=-.38;world.add(ring);
- setSelected(selected);loading.style.display='none';
+function renderPathButtons() {
+  const container = document.querySelector('#paths');
+  container.innerHTML = '';
+
+  document.querySelector('#count').textContent =
+    String(pathData.length).padStart(2, '0');
+
+  pathData.forEach((path, i) => {
+    const button = document.createElement('button');
+    button.className = 'path-button';
+    button.dataset.path = i;
+
+    const letter = document.createElement('span');
+    letter.className = 'letter';
+    letter.textContent = String.fromCharCode(65 + i);
+
+    const info = document.createElement('span');
+    const title = document.createElement('b');
+    title.textContent = path.title;
+
+    const subtitle = document.createElement('small');
+    subtitle.textContent = path.subtitle;
+
+    info.append(title, subtitle);
+
+    const arrow = document.createElement('span');
+    arrow.className = 'arrow';
+    arrow.textContent = '↗';
+
+    button.append(letter, info, arrow);
+    button.addEventListener('click', () => setSelected(i));
+    container.appendChild(button);
+  });
+}
+function buildWorld() {
+  clearWorld();
+
+  const count = pathData.length;
+  const radius = Math.max(3.5, count * 1.05);
+
+  addIsland([0, 0.1, 0], 0x74dfe0, -1, true, goalText);
+
+  for (let i = 0; i < count; i++) {
+    const angle = (i / count) * Math.PI * 2;
+    const pos = [
+      Math.cos(angle) * radius,
+      0,
+      Math.sin(angle) * radius
+    ];
+
+    const color = colors[i % colors.length];
+
+    addIsland(pos, color, i, false, pathData[i].title);
+    connect([0, 1.1, 0], [pos[0], 1.1, pos[2]], color);
+  }
+
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(radius + 1.5, 0.012, 5, 120),
+    new THREE.MeshBasicMaterial({
+      color: 0x7770bc,
+      transparent: true,
+      opacity: 0.22
+    })
+  );
+
+  ring.rotation.x = Math.PI / 2;
+  ring.position.y = -0.38;
+  world.add(ring);
+
+  renderPathButtons();
+  setSelected(Math.min(selected, count - 1));
+  loading.style.display = 'none';
 }
 function setSelected(i){selected=i;document.querySelectorAll('.path-button').forEach((b,n)=>b.classList.toggle('active',n===i));const p=pathData[i];if(!p)return;
  document.querySelector('#detailEyebrow').textContent=`PATH ${'ABC'[i]} / ${p.subtitle.toUpperCase()}`;document.querySelector('#detailTitle').textContent=p.title;document.querySelector('#detailDescription').textContent=p.description;document.querySelector('#effort').textContent=p.effort;document.querySelector('#best').textContent=p.best;
