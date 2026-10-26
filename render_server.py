@@ -90,22 +90,22 @@ def generate():
         paths = plan.get("paths")
 
         if not isinstance(paths, list) or len(paths) != 5:
-            raise ValueError("AI did not return exactly three paths.")
+            raise ValueError("AI did not return exactly five paths.")
 
-        clean = []
-        for item in paths:
-            tasks = item.get("tasks", [])
-            if not isinstance(tasks, list) or if not 5 <= len(tasks) <= 7:
-                raise ValueError("AI returned an incomplete task list.")
+            clean = []
+    for item in paths:
+        tasks = item.get("tasks", [])
+        if not isinstance(tasks, list) or not 5 <= len(tasks) <= 7:
+            raise ValueError("Each path must contain 5 to 7 tasks.")
 
-            clean.append({
-                "title": str(item.get("title", "Explore a direction"))[:50],
-                "subtitle": str(item.get("subtitle", "A possible path"))[:40],
-                "description": str(item.get("description", ""))[:700],
-                "effort": str(item.get("effort", "Medium"))[:30],
-                "best": str(item.get("best", "Making progress"))[:60],
-                "tasks": [str(t)[:160] for t in tasks]
-            })
+        clean.append({
+            "title": str(item.get("title", "Explore a direction"))[:50],
+            "subtitle": str(item.get("subtitle", "A possible path"))[:40],
+            "description": str(item.get("description", ""))[:700],
+            "effort": str(item.get("effort", "Medium"))[:30],
+            "best": str(item.get("best", "Making progress"))[:60],
+            "tasks": [str(t)[:160] for t in tasks]
+        })
 
         return jsonify({"paths": clean, "model": MODEL})
 
